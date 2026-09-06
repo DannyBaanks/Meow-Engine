@@ -33,7 +33,7 @@ jobs:
           pip install pytest pytest-cov PyYAML
       - name: 🧪 Run unit tests
         run: |
-          python -m pytest tests/test_protocol.py tests/test_frontier.py tests/test_cat.py tests/test_arena.py tests/test_cli.py tests/test_dataflow.py tests/test_provenance.py tests/test_roster.py tests/test_interpreters.py::test_no_private_project_references -v --tb=short
+          python -m pytest tests/test_protocol.py tests/test_frontier.py tests/test_cat.py tests/test_arena.py tests/test_cli.py tests/test_dataflow.py tests/test_provenance.py tests/test_roster.py tests/test_infinite_cat.py tests/test_interpreters.py::test_no_private_project_references -v --tb=short
 
   # Tests requiring external runtimes
   test-gladiators:
@@ -171,17 +171,40 @@ jobs:
 
           ---
 
+          ### 🧪 Experimento del gatito infinito
+
+          El gato NO se elige: **se construye**. Cada corrida toma 64 bits reales
+          de entropía (`secrets.randbits(64)`) y construye el gato pieza por pieza:
+          8 partes independientes, y solo `byte == 0` produce la pieza canónica.
+
+              P(gato verdadero) = (1/256)^8 = 1 / 2^64 ≈ 5.4e-20   por corrida
+
+          Cuencas de fallo: `CAT` (8/8) · `DOG` (7/8, un solo fallo) ·
+          `CUP` (<=1 hit, nada coincide) · `ABOMINATION` (el resto).
+
+          Auditoría por corrida en `cat_log.jsonl`: fuente de entropía, roll_hex,
+          bytes por parte, hits y verdict. Regla sagrada del repo:
+          **THE CI MUST NEVER GUARANTEE THAT THE CAT WILL APPEAR.**
+
+          ---
+
           ## En Honor a todos mis gatitas/os 🐱❤️
           '''.format(cat=cat, date=__import__('datetime').datetime.utcnow().strftime('%Y-%m-%d %H:%M'))
           with open('README.md', 'w', encoding='utf-8') as f:
               f.write(readme)
           print('README actualizado')
           PYEOF
-      - name: 📤 Commit README if changed
+      - name: 📤 Commit README + audit log if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git diff --quiet README.md || (git add README.md && git commit -m "🐱 Actualiza gatito del día $(date -u +'%Y-%m-%d')" && git push)
+          changed=$(git status --porcelain README.md cat_log.jsonl)
+          if [ -n "$changed" ]; then
+            verdict=$(tail -n1 cat_log.jsonl | python -c "import sys,json; print(json.load(sys.stdin)['verdict'])")
+            git add README.md cat_log.jsonl
+            git commit -m "🐱 Gatito del día $(date -u +'%Y-%m-%d') [$verdict]"
+            git push
+          fi
 
   # Lightweight daily job
   meow-only:

@@ -45,6 +45,23 @@ de los monos y la máquina de escribir.
 
 <!-- GATITO_COUNTER_END -->
 
+### 🧪 Cómo funciona el experimento
+
+El gato NO se elige: **se construye**. Cada corrida toma 64 bits reales de
+entropía (`secrets.randbits(64)`) y construye el gato pieza por pieza:
+8 partes independientes, y solo `byte == 0` produce la pieza canónica.
+
+    P(gato verdadero) = (1/256)^8 = 1 / 2^64 ≈ 5.4e-20   por corrida
+
+Cuencas de fallo: `CAT` (8/8) · `DOG` (7/8, un solo fallo) ·
+`CUP` (≤1, nada coincide) · `ABOMINATION` (el resto).
+
+Auditoría por corrida en `cat_log.jsonl`: fuente de entropía, roll_hex,
+bytes por parte, hits y verdict. Para que nadie diga que el gato salió
+a convenio. Regla sagrada del repo:
+
+> **THE CI MUST NEVER GUARANTEE THAT THE CAT WILL APPEAR.**
+
 ---
 
 ## En Honor a todos mis gatitas/os 🐱❤️
