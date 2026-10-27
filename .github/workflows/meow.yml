@@ -143,7 +143,12 @@ jobs:
         run: |
           python - <<'PYEOF'
           import os
+          import json
+          from pathlib import Path
           cat = open('cat.txt', 'r', encoding='utf-8').read()
+          latest = json.loads(Path('cat_log.jsonl').read_text(encoding='utf-8').splitlines()[-1])
+          hits = latest['hits']
+          rank = ('Sin señal', 'Común', 'Poco común', 'Raro', 'Súper raro', 'Legendario', 'Súper legendario', 'Bestia mitológica', 'Gato dios')[hits]
           readme = '''# MEOW-ENGINE
 
           El gato más innecesariamente sobre-ingenierizado del mundo.
@@ -169,6 +174,8 @@ jobs:
 
           *Actualizado automáticamente por CI • {date} UTC*
 
+          *Rango del gatito del día: **{rank}** ({hits}/8 piezas canónicas)*
+
           ---
 
           ### 🧪 Experimento del gatito infinito
@@ -179,6 +186,22 @@ jobs:
 
               P(gato verdadero) = (1/256)^8 = 1 / 2^64 ≈ 5.4e-20   por corrida
 
+          ### 🏆 Rangos de rareza del gatito
+          
+          | Piezas canónicas (`hits`) | Rango |
+          | ---: | :--- |
+          | 0/8 | 🫥 Sin señal |
+          | 1/8 | 🟢 Común |
+          | 2/8 | 🔵 Poco común |
+          | 3/8 | 🟣 Raro |
+          | 4/8 | ✨ Súper raro |
+          | 5/8 | 🏆 Legendario |
+          | 6/8 | 🌟 Súper legendario |
+          | 7/8 | 🐉 Bestia mitológica |
+          | 8/8 | 🐱👑 Gato dios |
+          
+          El rango solo describe cuántas piezas canónicas acertó esa corrida. No cambia los veredictos `CAT`/`DOG`/`CUP`/`ABOMINATION`, ni el azar: cada pieza sigue teniendo probabilidad `1/256` y el gato completo `1/2^64`.
+          
           Cuencas de fallo: `CAT` (8/8) · `DOG` (7/8, un solo fallo) ·
           `CUP` (<=1 hit, nada coincide) · `ABOMINATION` (el resto).
 
@@ -189,7 +212,7 @@ jobs:
           ---
 
           ## En Honor a todos mis gatitas/os 🐱❤️
-          '''.format(cat=cat, date=__import__('datetime').datetime.utcnow().strftime('%Y-%m-%d %H:%M'))
+          '''.format(cat=cat, date=__import__('datetime').datetime.utcnow().strftime('%Y-%m-%d %H:%M'), rank=rank, hits=hits)
           with open('README.md', 'w', encoding='utf-8') as f:
               f.write(readme)
           print('README actualizado')
