@@ -25,6 +25,8 @@ Todo el proyecto existe para demostrar que todo el proyecto era innecesario.
 
 *Actualizado automáticamente por CI • 2026-10-26 18:16 UTC*
 
+*Rango del gatito del día: **Sin señal** (0/8 piezas canónicas)*
+
 <!-- GATITO_COUNTER_START -->
 
 ### 🧪 Experimento del gatito infinito
@@ -49,6 +51,22 @@ de entropía (`secrets.randbits(64)`) y construye el gato pieza por pieza:
 8 partes independientes, y solo `byte == 0` produce la pieza canónica.
 
     P(gato verdadero) = (1/256)^8 = 1 / 2^64 ≈ 5.4e-20   por corrida
+
+### 🏆 Rangos de rareza del gatito
+
+| Piezas canónicas (`hits`) | Rango |
+| ---: | :--- |
+| 0/8 | 🫥 Sin señal |
+| 1/8 | 🟢 Común |
+| 2/8 | 🔵 Poco común |
+| 3/8 | 🟣 Raro |
+| 4/8 | ✨ Súper raro |
+| 5/8 | 🏆 Legendario |
+| 6/8 | 🌟 Súper legendario |
+| 7/8 | 🐉 Bestia mitológica |
+| 8/8 | 🐱👑 Gato dios |
+
+El rango solo describe cuántas piezas canónicas acertó esa corrida. No cambia los veredictos `CAT`/`DOG`/`CUP`/`ABOMINATION`, ni el azar: cada pieza sigue teniendo probabilidad `1/256` y el gato completo `1/2^64`.
 
 Cuencas de fallo: `CAT` (8/8) · `DOG` (7/8, un solo fallo) ·
 `CUP` (<=1 hit, nada coincide) · `ABOMINATION` (el resto).
