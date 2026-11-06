@@ -1,8 +1,14 @@
-# MEOW-ENGINE
+# MEOW-ENGINE v2.0 — El Gato Más Innecesariamente Sobre-Ingenierizado del Mundo
+
+[![Version](https://img.shields.io/badge/version-2.0-blue.svg)](https://github.com/DannyBaanks/Meow-Engine)
+[![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://python.org)
+[![Tournament](https://img.shields.io/badge/tournament-40%2B%20languages-orange.svg)]()
 
 El gato más innecesariamente sobre-ingenierizado del mundo.
 
 > **¿Por qué?** Podíamos. · **¿Qué hace?** Hace un gato. · **¿40 lenguajes?** Sí.
+
+Parte de la **Suite Experimental y Creativa v2.0** del ecosistema Malbolge e ISyCo.
 
     python meow.py --tournament
 
